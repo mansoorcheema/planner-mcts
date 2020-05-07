@@ -11,6 +11,7 @@
 #include "modules/world/evaluation/evaluator_collision_ego_agent.hpp"
 #include "modules/world/evaluation/evaluator_drivable_area.hpp"
 #include "modules/world/evaluation/evaluator_goal_reached.hpp"
+#include "modules/world/evaluation/evaluator_distance_to_goal.hpp"
 #include "modules/world/observed_world.hpp"
 
 namespace modules {
@@ -22,6 +23,8 @@ using modules::world::ObservedWorldPtr;
 using modules::world::evaluation::EvaluatorCollisionEgoAgent;
 using modules::world::evaluation::EvaluatorDrivableArea;
 using modules::world::evaluation::EvaluatorGoalReached;
+using modules::world::evaluation::EvaluatorDistanceToGoal;
+
 
 MctsStateSingleAgent::MctsStateSingleAgent(
     const ObservedWorldPtr& observed_world, bool is_terminal_state,
@@ -91,11 +94,19 @@ mcts::ActionIdx MctsStateSingleAgent::get_num_actions(
 
 bool MctsStateSingleAgent::is_terminal() const { return is_terminal_state_; }
 
-const std::vector<mcts::AgentIdx> MctsStateSingleAgent::get_agent_idx() const {
+const std::vector<mcts::AgentIdx> MctsStateSingleAgent::get_other_agent_idx() const {
   return std::vector<mcts::AgentIdx>{0};
 }
 
+const mcts::AgentIdx MctsStateSingleAgent::get_ego_agent_idx() const {
+  return 0;
+}
+
 std::string MctsStateSingleAgent::sprintf() const { return std::string(); }
+
+float MctsStateSingleAgent::get_distance_to_goal() const {
+  return EvaluatorDistanceToGoal::DistanceToGoal(observed_world_->GetEgoAgent());
+}
 
 }  // namespace behavior
 }  // namespace models

@@ -34,7 +34,8 @@ cc_library(
     hdrs = [
         "mcts_state_single_agent.hpp",
         "behavior_uct_single_agent_base.hpp",
-        "mcts_parameters_from_param_server.hpp"
+        "mcts_parameters_from_param_server.hpp",
+        "domain_heuristic.hpp"
     ],
     copts = ["-Iexternal/bark_project"],
     deps= [

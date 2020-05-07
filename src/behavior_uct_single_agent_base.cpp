@@ -10,6 +10,7 @@
 #include "mcts/mcts.h"
 #include "mcts/statistics/uct_statistic.h"
 #include "src/mcts_state_single_agent.hpp"
+#include "src/domain_heuristic.hpp"
 
 #include "modules/models/behavior/constant_velocity/constant_velocity.hpp"
 #include "modules/models/behavior/idm/idm_classic.hpp"
@@ -31,10 +32,12 @@ BehaviorUCTSingleAgentBase::BehaviorUCTSingleAgentBase(
     : BehaviorModel(params->AddChild("BehaviorUctSingleAgent")),
       prediction_settings_(),
       mcts_parameters_(models::behavior::MctsParametersFromParamServer(
-          GetParams())),
-      dump_tree_(GetParams()->GetBool(
+          GetParams()->AddChild("BehaviorUctSingleAgent"))),
+      dump_tree_(GetParams()->AddChild("BehaviorUctSingleAgent")->GetBool(
           "DumpTree",
-          "If true, tree is dumped to dot file after planning", false)) {}
+          "If true, tree is dumped to dot file after planning", false)),
+      random_heuristic_(GetParams()->AddChild("BehaviorUctSingleAgent")->GetBool(
+          "UseRandomHeuristic", "True if random heuristic shall be used, otherwise domain heuristic is applied", true)) {}
 
 dynamic::Trajectory BehaviorUCTSingleAgentBase::Plan(
     float delta_time, const world::ObservedWorld& observed_world) {
@@ -43,8 +46,9 @@ dynamic::Trajectory BehaviorUCTSingleAgentBase::Plan(
   mcts_observed_world->SetupPrediction(prediction_settings_);
 
   mcts::Mcts<MctsStateSingleAgent, mcts::UctStatistic, mcts::UctStatistic,
-             mcts::RandomHeuristic>
-      mcts(mcts_parameters_);
+             mcts::RandomHeuristic> mcts_random (mcts_parameters_);
+  mcts::Mcts<MctsStateSingleAgent, mcts::UctStatistic, mcts::UctStatistic,
+             DomainHeuristic> mcts_domain(mcts_parameters_);
 
   std::shared_ptr<BehaviorMotionPrimitives> ego_model =
       std::dynamic_pointer_cast<BehaviorMotionPrimitives>(
@@ -55,18 +59,37 @@ dynamic::Trajectory BehaviorUCTSingleAgentBase::Plan(
   BehaviorMotionPrimitives::MotionIdx num =
       ego_model->GetNumMotionPrimitives(const_mcts_observed_world);
   MctsStateSingleAgent mcts_state(mcts_observed_world, false, num, delta_time);
-  mcts.search(mcts_state);
-  mcts::ActionIdx best_action = mcts.returnBestAction();
-  SetLastAction(DiscreteAction(best_action));
-
-  if (dump_tree_) {
-    std::stringstream filename;
-    filename << "tree_dot_file_" << delta_time;
-    mcts.printTreeToDotFile(filename.str());
+  
+ 
+  mcts::ActionIdx best_action;
+  unsigned num_iterations;
+  unsigned search_time;
+  
+  if(random_heuristic_) {
+      mcts_random.search(mcts_state);
+      best_action = mcts_random.returnBestAction();
+      num_iterations = mcts_random.numIterations();
+      search_time = mcts_random.searchTime();
+        if (dump_tree_) {
+            std::stringstream filename;
+            filename << "tree_dot_file_" << delta_time;
+            mcts_random.printTreeToDotFile(filename.str());
+        }
+  } else {
+      mcts_domain.search(mcts_state);
+      best_action = mcts_domain.returnBestAction();
+      num_iterations = mcts_domain.numIterations();
+      search_time = mcts_domain.searchTime();
+        if (dump_tree_) {
+            std::stringstream filename;
+            filename << "tree_dot_file_" << delta_time;
+            mcts_domain.printTreeToDotFile(filename.str());
+        }
   }
 
-  LOG(INFO) << "BehaviorUCTSingleAgent, iterations: " << mcts.numIterations()
-            << ", search time " << mcts.searchTime()
+  SetLastAction(DiscreteAction(best_action));
+  LOG(INFO) << "BehaviorUCTSingleAgent, iterations: " << num_iterations
+            << ", search time " << search_time
             << ", best action: " << best_action;
 
   ego_model->ActionToBehavior(BehaviorMotionPrimitives::MotionIdx(best_action));

@@ -38,9 +38,13 @@ class MctsStateSingleAgent : public mcts::StateInterface<MctsStateSingleAgent> {
 
   bool is_terminal() const;
 
-  const std::vector<mcts::AgentIdx> get_agent_idx() const;
+  const std::vector<mcts::AgentIdx> get_other_agent_idx() const;
+
+  const mcts::AgentIdx get_ego_agent_idx() const;
 
   std::string sprintf() const;
+
+  float get_distance_to_goal() const;
 
  private:
   const std::shared_ptr<const modules::world::ObservedWorld> observed_world_;

@@ -36,6 +36,7 @@ class BehaviorUCTSingleAgentBase : public BehaviorModel {
  protected:
   modules::world::prediction::PredictionSettings prediction_settings_;
   bool dump_tree_;
+  bool random_heuristic_;
 
   // MCTS PARAMETERS
   mcts::MctsParameters mcts_parameters_;

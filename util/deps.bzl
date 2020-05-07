@@ -1,30 +1,17 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 def planner_uct_rules_dependencies():
-    # _maybe(
-    # git_repository,
-    # name = "bark_project",
-    # commit="042ed605f5631cfd59cc8dc9bc68325de4412d19",
-    # remote = "https://github.com/bark-simulator/bark",
-    # )
-
     _maybe(
     git_repository,
     name = "bark_project",
-    branch="motion_primitives",
+    commit="415bfedadc5b2f2c6e8893af9a80097c309de249",
     remote = "https://github.com/bark-simulator/bark",
     )
-
-    # _maybe(
-    # native.local_repository,
-    # name = "bark_project",
-    # path = "/home/esterle/development/bark",
-    # )
 
     _maybe(
     git_repository,
     name = "mamcts_project",
-    commit="77d3efd13b508d6eb33f8fad1ba1665666529513",
+    commit="55d3478b954287fa360329cc8320855894b02ce5",
     remote = "https://github.com/juloberno/mamcts",
     )
 

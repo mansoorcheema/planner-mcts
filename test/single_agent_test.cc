@@ -157,7 +157,7 @@ TEST(single_agent_mcts_state, execute_goal_reached_state_limits) {
 
 TEST(behavior_uct_single_agent, no_agent_in_front_accelerate) {
   // Test if uct planner accelerates if there is no agent in front
-  auto params = std::make_shared<SetterParams>(true);
+  auto params = std::make_shared<SetterParams>(false);
   params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 10000);
   params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 20000);
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomSeed", 1000);
@@ -187,7 +187,7 @@ TEST(behavior_uct_single_agent, no_agent_in_front_accelerate) {
 
 TEST(behavior_uct_single_agent, agent_in_front_must_brake) {
   // Test if uct planner brakes when slow agent is directly in front
-  auto params = std::make_shared<SetterParams>(true);
+  auto params = std::make_shared<SetterParams>(false);
   params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 1000);
   params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 20000);
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomSeed", 1000);
