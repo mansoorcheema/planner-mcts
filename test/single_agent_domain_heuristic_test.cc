@@ -49,8 +49,8 @@ using modules::world::evaluation::EvaluatorCollisionEgoAgent;
 TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
   // Test if the planner reaches the goal at some point when agent is slower and in front
   auto params = std::make_shared<SetterParams>(false);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 400);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 4000);
+  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 10000);
+  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 100);
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomSeed", 1000);
   params->SetBool("BehaviorUctSingleAgent::DumpTree", true);
   params->SetListListFloat("BehaviorUctSingleAgent::MotionPrimitiveInputs", {{0,0}, {1,0}, {0,-0.27}, {0, 0.27}, {0,-0.17}, {0, 0.17}, {-1,0}}); 

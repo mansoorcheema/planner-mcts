@@ -42,8 +42,10 @@ public:
 
         // generate an extra node statistic for each agent
         SE ego_heuristic(0, node->get_state()->get_ego_agent_idx(), mcts_parameters_);
+        auto goal_distance = node->get_state()->get_distance_to_goal();
         mcts::Reward ego_all_reward = 1/(node->get_state()->get_distance_to_goal() + 0.01);
         ego_heuristic.set_heuristic_estimate(ego_all_reward, -ego_all_reward);
+        LOG_EVERY_N(INFO, 30) << "Calculating domain value=" << ego_all_reward << ", for dist. to. goal=" << goal_distance;
         std::unordered_map<mcts::AgentIdx, SO> other_heuristic_estimates;
         mcts::AgentIdx reward_idx=1;
         for (auto agent_idx : node->get_state()->get_other_agent_idx())

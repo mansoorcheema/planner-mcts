@@ -33,7 +33,6 @@ cc_test(
         "@bark_project//modules/models/behavior:behavior",
         "@bark_project//modules/models/behavior/motion_primitives:motion_primitives",
         "@bark_project//modules/models/behavior/mobil:mobil",
-        "@bark_project//modules/models/behavior/idm:idm_lane_tracking",
         "@bark_project//modules/models/behavior/constant_velocity:constant_velocity",
         "@bark_project//modules/models/behavior/idm:idm_lane_tracking",
         "@bark_project//modules/world/evaluation:evaluator_goal_reached",
