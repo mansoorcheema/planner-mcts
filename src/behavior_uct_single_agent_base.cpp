@@ -29,7 +29,7 @@ using modules::world::prediction::PredictionSettings;
 
 BehaviorUCTSingleAgentBase::BehaviorUCTSingleAgentBase(
     const commons::ParamsPtr& params)
-    : BehaviorModel(params->AddChild("BehaviorUctSingleAgent")),
+    : BehaviorModel(params),
       prediction_settings_(),
       mcts_parameters_(models::behavior::MctsParametersFromParamServer(
           GetParams()->AddChild("BehaviorUctSingleAgent"))),
@@ -37,7 +37,11 @@ BehaviorUCTSingleAgentBase::BehaviorUCTSingleAgentBase(
           "DumpTree",
           "If true, tree is dumped to dot file after planning", false)),
       random_heuristic_(GetParams()->AddChild("BehaviorUctSingleAgent")->GetBool(
-          "UseRandomHeuristic", "True if random heuristic shall be used, otherwise domain heuristic is applied", true)) {}
+          "UseRandomHeuristic", "True if random heuristic shall be used, otherwise domain heuristic is applied", true)),
+      prediction_time_span_(GetParams()->AddChild("BehaviorUctSingleAgent")
+                                        ->AddChild("PredictionSettings")
+                                        ->GetReal("TimeSpan",
+          "Time in seconds agents are predicted ahead in each expansion and rollout step", 0.5f)) {}
 
 dynamic::Trajectory BehaviorUCTSingleAgentBase::Plan(
     float delta_time, const world::ObservedWorld& observed_world) {
@@ -58,7 +62,8 @@ dynamic::Trajectory BehaviorUCTSingleAgentBase::Plan(
       std::const_pointer_cast<ObservedWorld>(mcts_observed_world);
   BehaviorMotionPrimitives::MotionIdx num =
       ego_model->GetNumMotionPrimitives(const_mcts_observed_world);
-  MctsStateSingleAgent mcts_state(mcts_observed_world, false, num, delta_time);
+
+  MctsStateSingleAgent mcts_state(mcts_observed_world, false, num, prediction_time_span_);
   
  
   mcts::ActionIdx best_action;
