@@ -52,6 +52,14 @@ git_repository(
     remote = "https://github.com/patrickhart/rules_boost",
 )
 
+# ------ Planner UCT ------------------------------
+git_repository(
+    name = "planner_uct",
+    commit="fba600ae2e2fb04bc4bff7f1af276b9750dfaef5",
+    remote = "https://github.com/bark-simulator/planner-mcts"
+)
+
+
 # External dependency: Google Flags; has Bazel build already.
 http_archive(
     name = "com_github_gflags_gflags",

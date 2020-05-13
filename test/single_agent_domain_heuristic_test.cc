@@ -49,17 +49,22 @@ using modules::world::evaluation::EvaluatorCollisionEgoAgent;
 TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
   // Test if the planner reaches the goal at some point when agent is slower and in front
   auto params = std::make_shared<SetterParams>(false);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 10000);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 100);
+  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 10000);//10000
+  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 200);//100
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomSeed", 1000);
   params->SetBool("BehaviorUctSingleAgent::DumpTree", true);
   params->SetListListFloat("BehaviorUctSingleAgent::MotionPrimitiveInputs", {{0,0}, {1,0}, {0,-0.27}, {0, 0.27}, {0,-0.17}, {0, 0.17}, {-1,0}}); 
-  params->SetReal("BehaviorUctSingleAgent::Mcts::DiscountFactor", 0.9);
+  params->SetReal("BehaviorUctSingleAgent::Mcts::DiscountFactor", 0.95);//0.9
   params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ExplorationConstant", 0.7);
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomHeuristic::MaxSearchTime", 20000);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::RandomHeuristic::MaxNumIterations", 10);
-  params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnLowerBound", -1000);
-  params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnUpperBound", 100);
+  params->SetInt("BehaviorUctSingleAgent::Mcts::RandomHeuristic::MaxNumIterations", 20);//10
+
+  // params->SetReal("BehaviorUctSingleAgent::Mcts::DomainHeuristic::Exponential_a", 103);
+  // params->SetReal("BehaviorUctSingleAgent::Mcts::DomainHeuristic::Exponential_b", -3);
+  // params->SetReal("BehaviorUctSingleAgent::Mcts::DomainHeuristic::Exponential_c", 0.5);
+
+  params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnLowerBound", -1100);//-1000
+  params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnUpperBound", 100);//100
   params->SetBool("BehaviorUctSingleAgent::UseRandomHeuristic", false);
 
 

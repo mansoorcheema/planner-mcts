@@ -10,6 +10,8 @@
 #include "mcts/mcts.h"
 #include <iostream>
 #include <chrono>
+#include <math.h>
+#include <cmath>
 
 namespace modules {
 namespace models {
@@ -28,7 +30,7 @@ public:
             const auto ego_agent_idx = node->get_state()->get_ego_agent_idx();
             const mcts::ActionIdx num_ego_actions = node->get_state()->get_num_actions(ego_agent_idx); 
             SE ego_heuristic(num_ego_actions, node->get_state()->get_ego_agent_idx(), mcts_parameters_);
-            ego_heuristic.set_heuristic_estimate(0.0f, 0.0f);
+            ego_heuristic.set_heuristic_estimate(100.0f, 0.0f);//(0.0f, 0.0f)
             std::unordered_map<mcts::AgentIdx, SO> other_heuristic_estimates;
             for (const auto& ai : node->get_state()->get_other_agent_idx())
             { 
@@ -43,8 +45,18 @@ public:
         // generate an extra node statistic for each agent
         SE ego_heuristic(0, node->get_state()->get_ego_agent_idx(), mcts_parameters_);
         auto goal_distance = node->get_state()->get_distance_to_goal();
-        mcts::Reward ego_all_reward = 1/(node->get_state()->get_distance_to_goal() + 0.01);
-        ego_heuristic.set_heuristic_estimate(ego_all_reward, -ego_all_reward);
+        //mcts::Reward ego_all_reward = 89+11*exp(-0.01*goal_distance);
+        //mcts::Reward ego_all_reward = 105-5*exp(0.2*goal_distance);
+        mcts::Reward ego_all_reward = 1/(0.01 + 0.01*goal_distance);
+        //mcts::Reward ego_all_reward = 100-40*goal_distance;
+        //mcts::Reward ego_all_reward = 100-100*log(goal_distance+1);
+
+        bool collision_ego_happen = node->get_state()->get_collision_happen();
+        if(collision_ego_happen){
+            ego_all_reward = -1000;
+        }
+
+        ego_heuristic.set_heuristic_estimate(ego_all_reward, 0.0f );//(ego_all_reward, -ego_all_reward)
         LOG_EVERY_N(INFO, 30) << "Calculating domain value=" << ego_all_reward << ", for dist. to. goal=" << goal_distance;
         std::unordered_map<mcts::AgentIdx, SO> other_heuristic_estimates;
         mcts::AgentIdx reward_idx=1;
@@ -56,7 +68,7 @@ public:
             reward_idx++;
         }
         return std::pair<SE, std::unordered_map<mcts::AgentIdx, SO>>(ego_heuristic, other_heuristic_estimates);
-    }
+    }  
 
 };
 

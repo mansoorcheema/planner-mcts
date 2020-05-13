@@ -94,6 +94,14 @@ mcts::ActionIdx MctsStateSingleAgent::get_num_actions(
 
 bool MctsStateSingleAgent::is_terminal() const { return is_terminal_state_; }
 
+bool MctsStateSingleAgent::get_collision_happen() const{
+   
+       auto ego_id = observed_world_->GetEgoAgent()->GetAgentId();
+       auto evaluator_collision_ego = EvaluatorCollisionEgoAgent(ego_id);
+       bool collision_ego = false;
+       return collision_ego;
+}
+
 const std::vector<mcts::AgentIdx> MctsStateSingleAgent::get_other_agent_idx() const {
   return std::vector<mcts::AgentIdx>{0};
 }

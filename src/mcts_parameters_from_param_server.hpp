@@ -30,9 +30,16 @@ mcts::MctsParameters MctsParametersFromParamServer(const commons::ParamsPtr& par
     parameters.uct_statistic.UPPER_BOUND = params->GetReal("Mcts::UctStatistic::ReturnUpperBound", "Upper return bound used for normalization in UCT Statistic", 100);
     parameters.uct_statistic.EXPLORATION_CONSTANT = params->GetReal("Mcts::UctStatistic::ExplorationConstant", "Exploration constant of UCT", 0.7);
 
+    // parameters.domain_heuristic.EXPONENTIAL_A = params->GetReal("Mcts::DomainHeuristic::Exponential_a",
+    //                                                       "the parameter a of exponential method of calculating heuristic of distance by domain heuristic", 103);
+    // parameters.domain_heuristic.EXPONENTIAL_B = params->GetReal("Mcts::DomainHeuristic::Exponential_b",
+    //                                                       "the parameter b of exponential method of calculating heuristic of distance by domain heuristic", -3);
+    // parameters.domain_heuristic.EXPONENTIAL_C = params->GetReal("Mcts::DomainHeuristic::Exponential_c",
+    //                                                       "the parameter c of exponential method of calculating heuristic of distance by domain heuristic", 0.5);
+    
     parameters.hypothesis_statistic.COST_BASED_ACTION_SELECTION = false;
     parameters.hypothesis_statistic.LOWER_COST_BOUND = 0;
-    parameters.hypothesis_statistic.UPPER_COST_BOUND = 1;
+    parameters.hypothesis_statistic.UPPER_COST_BOUND = 1  ;
     parameters.hypothesis_statistic.PROGRESSIVE_WIDENING_HYPOTHESIS_BASED = true;
     parameters.hypothesis_statistic.PROGRESSIVE_WIDENING_ALPHA = 0.5;
     parameters.hypothesis_statistic.PROGRESSIVE_WIDENING_K = 1;
