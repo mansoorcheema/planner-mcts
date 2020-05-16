@@ -49,24 +49,24 @@ using modules::world::evaluation::EvaluatorCollisionEgoAgent;
 TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
   // Test if the planner reaches the goal at some point when agent is slower and in front
   auto params = std::make_shared<SetterParams>(false);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 15000);//10000
-  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 5000);//100
+  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxNumIterations", 1000);//10000
+  params->SetInt("BehaviorUctSingleAgent::Mcts::MaxSearchTime", 100);//100
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomSeed", 1000);
   params->SetBool("BehaviorUctSingleAgent::DumpTree", true);
   params->SetListListFloat("BehaviorUctSingleAgent::MotionPrimitiveInputs", {{0,0}, {1,0}, {0,-0.27}, {0, 0.27}, {0,-0.17}, {0, 0.17}, {-1,0}}); 
   params->SetReal("BehaviorUctSingleAgent::Mcts::DiscountFactor", 0.95);//0.9/0.95
   params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ExplorationConstant", 0.7);//0.7/0.6
   params->SetInt("BehaviorUctSingleAgent::Mcts::RandomHeuristic::MaxSearchTime", 20000);
-  params->SetInt("BehaviorUctSingleAgent::Mcts::RandomHeuristic::MaxNumIterations", 50);//10
+  params->SetInt("BehaviorUctSingleAgent::Mcts::RandomHeuristic::MaxNumIterations", 10);//10
 
-  params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnLowerBound", -13000);//-1000
+  params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnLowerBound", -2000);//-1000
   params->SetReal("BehaviorUctSingleAgent::Mcts::UctStatistic::ReturnUpperBound", 100);//100
   params->SetBool("BehaviorUctSingleAgent::UseRandomHeuristic", false);
 
 
   float ego_velocity = 5.0, rel_distance = 2.0, velocity_difference=2.0, prediction_time_span=0.2f;
-  Polygon polygon(Pose(0, 0, 0), std::vector<Point2d>{Point2d(0, -1), Point2d(0, 1), Point2d(20, 1), Point2d(20, -1), Point2d(0, -1)});
-  std::shared_ptr<Polygon> goal_polygon(std::dynamic_pointer_cast<Polygon>(polygon.Translate(Point2d(30, -0.5)))); // < move the goal polygon into the driving corridor to the side of the ego vehicle
+  Polygon polygon(Pose(0, 0, 0), std::vector<Point2d>{Point2d(0, -1), Point2d(0, 1), Point2d(20, 1), Point2d(20, -1), Point2d(0, -1)});//(20,1)
+  std::shared_ptr<Polygon> goal_polygon(std::dynamic_pointer_cast<Polygon>(polygon.Translate(Point2d(5, -0.8)))); //(30, -0.5) < move the goal polygon into the driving corridor to the side of the ego vehicle
   auto goal_definition_ptr = std::make_shared<GoalDefinitionStateLimits>(*goal_polygon, std::make_pair<float, float>(-0.2f, 0.2f));
   
   auto world = make_test_world(0,rel_distance, ego_velocity, velocity_difference, goal_definition_ptr);
@@ -79,7 +79,7 @@ TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
   auto evaluator_collision_ego = EvaluatorCollisionEgoAgent(world->GetAgents().begin()->second->GetAgentId());
 
   bool goal_reached = false;
-  for(int i =0; i<100; ++i) {
+  for(int i =0; i<50; ++i) {//i<100
     world->Step(prediction_time_span);
     bool outside_drivable_area = boost::get<bool>(evaluator_drivable_area.Evaluate(*world));
     bool collision_ego = boost::get<bool>(evaluator_collision_ego.Evaluate(*world));
@@ -87,8 +87,8 @@ TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
     EXPECT_FALSE(collision_ego);
     LOG(INFO) << world->GetAgents().begin()->second->GetCurrentState();
     if(world->GetAgents().begin()->second->AtGoal()) {
-      goal_reached = true;
-      break;
+        goal_reached = true;
+        break;
     }
   }
   EXPECT_TRUE(goal_reached);
