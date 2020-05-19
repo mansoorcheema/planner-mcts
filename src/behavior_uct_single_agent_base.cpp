@@ -37,7 +37,7 @@ BehaviorUCTSingleAgentBase::BehaviorUCTSingleAgentBase(
           "DumpTree",
           "If true, tree is dumped to dot file after planning", false)),
       random_heuristic_(GetParams()->AddChild("BehaviorUctSingleAgent")->GetBool(
-          "UseRandomHeuristic", "True if random heuristic shall be used, otherwise domain heuristic is applied", true)),
+          "UseRandomHeuristic", "True if random heuristic shall be used, otherwise domain heuristic is applied", false)),
       prediction_time_span_(GetParams()->AddChild("BehaviorUctSingleAgent")
                                         ->AddChild("PredictionSettings")
                                         ->GetReal("TimeSpan",

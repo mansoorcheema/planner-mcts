@@ -30,7 +30,7 @@ public:
             const auto ego_agent_idx = node->get_state()->get_ego_agent_idx();
             const mcts::ActionIdx num_ego_actions = node->get_state()->get_num_actions(ego_agent_idx); 
             SE ego_heuristic(num_ego_actions, node->get_state()->get_ego_agent_idx(), mcts_parameters_);
-            ego_heuristic.set_heuristic_estimate(0.0f, 0.0f);//(0.0f, 0.0f)
+            ego_heuristic.set_heuristic_estimate(100.0f, 0.0f);//(0.0f, 0.0f)
             std::unordered_map<mcts::AgentIdx, SO> other_heuristic_estimates;
             for (const auto& ai : node->get_state()->get_other_agent_idx())
             { 
@@ -40,8 +40,7 @@ public:
             }
             return std::pair<SE, std::unordered_map<mcts::AgentIdx, SO>>(ego_heuristic, other_heuristic_estimates) ;
         }
-        
-
+    
         // generate an extra node statistic for each agent
         SE ego_heuristic(0, node->get_state()->get_ego_agent_idx(), mcts_parameters_);
         auto goal_distance = node->get_state()->get_distance_to_goal();
@@ -50,13 +49,22 @@ public:
         //mcts::Reward ego_all_reward = 100-80*goal_distance;
         //mcts::Reward ego_all_reward = 100-100*log(goal_distance+1);
 
-        bool collision_ego_happen = node->get_state()->get_collision_happen();
-        if(collision_ego_happen){
-            ego_all_reward = -1000;
-        }
+        // bool collision_ego_happen = node->get_state()->get_collision_happen();
+        // if(collision_ego_happen){
+        //     ego_all_reward = -1000;
+        // }
 
         ego_heuristic.set_heuristic_estimate(ego_all_reward, -ego_all_reward);//(ego_all_reward, -ego_all_reward)
-        LOG_EVERY_N(INFO, 30) << "Calculating domain value=" << ego_all_reward << ", for dist. to. goal=" << goal_distance;
+        LOG_EVERY_N(INFO, 100) << "Calculating domain value=" << ego_all_reward << ", for dist. to. goal=" << goal_distance;//30
+
+        // float c;
+        // c = 5;
+        // if (c >= goal_distance){
+        //     c = goal_distance;
+        // }
+
+        // LOG_EVERY_N(INFO, 200) << "min distance=" << c;
+
         std::unordered_map<mcts::AgentIdx, SO> other_heuristic_estimates;
         mcts::AgentIdx reward_idx=1;
         for (auto agent_idx : node->get_state()->get_other_agent_idx())
