@@ -44,8 +44,8 @@ public:
         // generate an extra node statistic for each agent
         SE ego_heuristic(0, node->get_state()->get_ego_agent_idx(), mcts_parameters_);
         auto goal_distance = node->get_state()->get_distance_to_goal();
-        mcts::Reward ego_all_reward = 105-5*exp(0.3*goal_distance);
-        //mcts::Reward ego_all_reward = 1/(0.01 + 0.01*goal_distance);
+        //mcts::Reward ego_all_reward = 105-5*exp(0.3*goal_distance);
+        mcts::Reward ego_all_reward = 1/(0.01 + goal_distance);
         //mcts::Reward ego_all_reward = 100-80*goal_distance;
         //mcts::Reward ego_all_reward = 100-100*log(goal_distance+1);
 

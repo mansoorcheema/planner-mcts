@@ -100,6 +100,7 @@ dynamic::Trajectory BehaviorUCTSingleAgentBase::Plan(
   ego_model->ActionToBehavior(BehaviorMotionPrimitives::MotionIdx(best_action));
   auto traj = ego_model->Plan(delta_time, observed_world);
   SetLastTrajectory(traj);
+  SetBehaviorStatus(BehaviorStatus::VALID);
   return traj;
 }
 
