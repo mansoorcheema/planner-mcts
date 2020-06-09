@@ -68,7 +68,7 @@ TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
 
 
   float ego_velocity = 10.0, rel_distance = 2.0, velocity_difference=2.0, prediction_time_span=0.2f;//ego_velocity = 5.0
-  Polygon polygon(Pose(0, 0, 0), std::vector<Point2d>{Point2d(0, -1.5), Point2d(0, 1.5), Point2d(20, 1.5), Point2d(20, -1.5), Point2d(0, -1.5)});//(20,1)
+  Polygon polygon(Pose(0, 0, 0), std::vector<Point2d>{Point2d(0, -0.5), Point2d(0, 0.5), Point2d(20, 0.5), Point2d(20, -0.5), Point2d(0, -0.5)});//(20,1)
   std::shared_ptr<Polygon> goal_polygon(std::dynamic_pointer_cast<Polygon>(polygon.Translate(Point2d(20, -3.5)))); //(30, -0.5) < move the goal polygon into the driving corridor to the side of the ego vehicle
   auto goal_definition_ptr = std::make_shared<GoalDefinitionStateLimits>(*goal_polygon, std::make_pair<float, float>(-0.2f, 0.2f));
   
@@ -80,9 +80,6 @@ TEST(behavior_uct_single_agent, change_lane_random_heuristic) {
 
   auto evaluator_drivable_area = EvaluatorDrivableArea();
   auto evaluator_collision_ego = EvaluatorCollisionEgoAgent(world->GetAgents().begin()->second->GetAgentId());
-
-  
-  
 
   bool goal_reached = false;
   for(int i =0; i<1000; ++i) {//i<100
