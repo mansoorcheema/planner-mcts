@@ -49,7 +49,7 @@ TEST(single_agent_mcts_state, execute) {
   // Setup prediction models for ego agent and other agents   
   auto params = std::make_shared<DefaultParams>();
   DynamicModelPtr dyn_model(new SingleTrackModel(params));
-  BehaviorModelPtr ego_prediction_model(new BehaviorMPContinuousActions(dyn_model, params));
+  BehaviorModelPtr ego_prediction_model(new BehaviorMPContinuousActions(params));
   float ego_velocity = 5.0, rel_distance = 7.0, velocity_difference=0.0, prediction_time_span=0.2f;
   Input u1(2);  u1 << 0, 0;
   Input u2(2);  u2 << 50, 0.5; //  < crazy action to drive out of the corridors
@@ -114,7 +114,7 @@ TEST(single_agent_mcts_state, execute_goal_reached_state_limits) {
   // Setup prediction models for ego agent and other agents   
   auto params = std::make_shared<DefaultParams>();
   DynamicModelPtr dyn_model(new SingleTrackModel(params));
-  BehaviorModelPtr ego_prediction_model(new BehaviorMPContinuousActions(dyn_model, params));
+  BehaviorModelPtr ego_prediction_model(new BehaviorMPContinuousActions(params));
   float ego_velocity = 5.0, rel_distance = 7.0, velocity_difference=0.0, prediction_time_span=0.2f;
   Input u1(2);  u1 << 0, 0;
   Input u2(2);  u2 << 50, 3; //  < crazy action to drive out of the corridors
