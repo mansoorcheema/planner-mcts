@@ -8,10 +8,10 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "modules/world/evaluation/evaluator_collision_ego_agent.hpp"
-#include "modules/world/evaluation/evaluator_drivable_area.hpp"
-#include "modules/world/evaluation/evaluator_goal_reached.hpp"
-#include "modules/world/observed_world.hpp"
+#include "bark/world/evaluation/evaluator_collision_ego_agent.hpp"
+#include "bark/world/evaluation/evaluator_drivable_area.hpp"
+#include "bark/world/evaluation/evaluator_goal_reached.hpp"
+#include "bark/world/observed_world.hpp"
 
 namespace modules {
 namespace models {

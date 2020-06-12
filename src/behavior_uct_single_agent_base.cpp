@@ -11,11 +11,11 @@
 #include "mcts/statistics/uct_statistic.h"
 #include "src/mcts_state_single_agent.hpp"
 
-#include "modules/models/behavior/constant_velocity/constant_velocity.hpp"
-#include "modules/models/behavior/idm/idm_classic.hpp"
-#include "modules/models/behavior/motion_primitives/continuous_actions.hpp"
-#include "modules/models/dynamic/single_track.hpp"
-#include "modules/world/observed_world.hpp"
+#include "bark/models/behavior/constant_velocity/constant_velocity.hpp"
+#include "bark/models/behavior/idm/idm_classic.hpp"
+#include "bark/models/behavior/motion_primitives/continuous_actions.hpp"
+#include "bark/models/dynamic/single_track.hpp"
+#include "bark/world/observed_world.hpp"
 
 namespace modules {
 namespace models {

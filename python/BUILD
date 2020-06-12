@@ -5,7 +5,7 @@ cc_library(
   srcs = ["python_planner_uct.cpp"],
   hdrs = ["python_planner_uct.hpp"],
   deps = [
-    "@bark_project//python:common",
+    "@bark_project//bark/python_wrapper:common",
     "//src:planner_uct_single_agent",
     "//src:planner_uct_single_agent_macro_actions",
     "@python_linux//:python-lib",
@@ -22,15 +22,15 @@ cc_binary(
   srcs = ["python_test_module.cpp"],
   deps = [
     ":planner_uct",
-    "@bark_project//python:behavior",
-    "@bark_project//modules/models/behavior:behavior",
-    "@bark_project//modules/models/behavior/motion_primitives:motion_primitives",
-    "@bark_project//modules/models/behavior/constant_velocity:constant_velocity",
-    "@bark_project//modules/models/behavior/mobil:mobil",
-    "@bark_project//modules/world:world",
-    "@bark_project//modules/world/evaluation:evaluator_goal_reached",
-    "@bark_project//modules/world/evaluation:evaluator_collision_ego_agent",
-    "@bark_project//modules/world/evaluation:evaluator_drivable_area",
+    "@bark_project//bark/python_wrapper:behavior",
+    "@bark_project//bark/models/behavior:behavior",
+    "@bark_project//bark/models/behavior/motion_primitives:motion_primitives",
+    "@bark_project//bark/models/behavior/constant_velocity:constant_velocity",
+    "@bark_project//bark/models/behavior/mobil:mobil",
+    "@bark_project//bark/world:world",
+    "@bark_project//bark/world/evaluation:evaluator_goal_reached",
+    "@bark_project//bark/world/evaluation:evaluator_collision_ego_agent",
+    "@bark_project//bark/world/evaluation:evaluator_drivable_area",
   ],
   linkshared = 1,
   linkstatic = 1
@@ -49,7 +49,7 @@ py_test(
   data = ['@bark_project//python:bark.so'],
   imports = ['../python/'],
   deps=[
-    "@bark_project//modules/runtime:runtime",
+    "@bark_project//bark/runtime:runtime",
   ]
 )
 

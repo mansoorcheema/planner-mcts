@@ -4,7 +4,7 @@ cc_library(
     hdrs = ["behavior_uct_single_agent.hpp"],
     copts = ["-Iexternal/bark_project"],
     deps= [
-        "@bark_project//modules:include",
+        "@bark_project//bark:include",
         "@mamcts_project//mcts:mamcts",
         ":planner_uct_single_agent_base",
     ],
@@ -17,7 +17,7 @@ cc_library(
     hdrs = ["behavior_uct_single_agent_macro_actions.hpp"],
     copts = ["-Iexternal/bark_project"],
     deps= [
-        "@bark_project//modules:include",
+        "@bark_project//bark:include",
         "@mamcts_project//mcts:mamcts",
         ":planner_uct_single_agent_base",
     ],
@@ -38,7 +38,7 @@ cc_library(
     ],
     copts = ["-Iexternal/bark_project"],
     deps= [
-        "@bark_project//modules:include",
+        "@bark_project//bark:include",
         "@mamcts_project//mcts:mamcts",
     ],
     visibility = ["//visibility:public"],
