@@ -9,8 +9,8 @@
 #include <memory>
 #include "mcts/mcts_parameters.h"
 
-#include "modules/models/behavior/behavior_model.hpp"
-#include "modules/world/prediction/prediction_settings.hpp"
+#include "bark/models/behavior/behavior_model.hpp"
+#include "bark/world/prediction/prediction_settings.hpp"
 
 namespace modules {
 namespace world {

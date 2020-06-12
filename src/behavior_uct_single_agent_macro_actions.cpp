@@ -5,9 +5,9 @@
 
 #include "src/behavior_uct_single_agent_macro_actions.hpp"
 
-#include "modules/models/behavior/idm/idm_classic.hpp"
-#include "modules/models/behavior/motion_primitives/macro_actions.hpp"
-#include "modules/models/dynamic/single_track.hpp"
+#include "bark/models/behavior/idm/idm_classic.hpp"
+#include "bark/models/behavior/motion_primitives/macro_actions.hpp"
+#include "bark/models/dynamic/single_track.hpp"
 
 namespace modules {
 namespace models {
