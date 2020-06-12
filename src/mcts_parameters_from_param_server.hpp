@@ -6,7 +6,7 @@
 #ifndef MCTS_PARAMETERS_FROM_PARAMETER_SERVER_HPP_
 #define MCTS_PARAMETERS_FROM_PARAMETER_SERVER_HPP_
 
-#include "modules/commons/params/params.hpp"
+#include "bark/commons/params/params.hpp"
 #include "mcts/mcts_parameters.h"
 
 namespace modules{
