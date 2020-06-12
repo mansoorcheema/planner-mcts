@@ -11,7 +11,7 @@ cc_library(
     ],
     copts = ["-Iexternal/bark_project"],
     deps= [
-        "@bark_project//modules:include",
+        "@bark_project//bark:include",
         "@mamcts_project//mcts:mamcts",
     ],
     visibility = ["//visibility:public"],
